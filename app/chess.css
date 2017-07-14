@@ -15,8 +15,16 @@ div {
     /*background-color: #bada55;*/
     display: inline-block;
 }
+.cell {
+	height: 10vw;
+	width: 10vw;
+	float: left;
+}
 .white-cell {
 	background-color: #eeeeee;
+}
+.black-cell {
+	background-color: saddlebrown;
 }
 #master-div {
 	width: 80vw;
@@ -25,4 +33,7 @@ div {
 }
 .lighty-uppy-piece {
 	background-color: #fb1;
+}
+.highlight {
+	background-color: aquamarine;
 }
