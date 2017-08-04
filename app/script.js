@@ -47,10 +47,10 @@ domBoard.createChessBoard();
 	$(document).ready(() => {
 		$('.cell').click(function () {
 			const id = $(this).attr('id');
-			let currPiece = BoardState.state[id[0]][id[1]];
+			const currPiece = BoardState.state[id[0]][id[1]];
 			console.log(currPiece);
 			console.log(id);
-			let targets = currPiece.getTargets();
+			const targets = currPiece.getTargets();
 			highlightTargets(targets);
 		});
 	});
