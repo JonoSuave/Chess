@@ -56,16 +56,18 @@ export default class Board {
 				}
 			});
 		});
-//		for (let a = 0, row; a < this.state.length; a++) {
-//			row = this.state[a];
-//			for (let i = 0, cell; i < row.length; i++) {
-//				cell = row[i];
-//				if (cell && this.isEnemy(cell.row, i)) {
-//					enemyTargets = enemyTargets.concat(cell.getTargets(true));
-//					console.log(enemyTargets);
-//				}
-//			}
-//		}
 		return enemyTargets;
+	}
+
+	isTarget(clickedPiece, targetsArr) {
+		for(let i = 0; i < targetsArr.length; i++) {
+			if(targetsArr[i].row === clickedPiece.row && targetsArr[i].col = clickedPiece.col) {
+				return true;
+			}
+		}
+	}
+	
+	movePiece(pieceMoved, newLocation) {
+		this.state[newLocation[row]][newLocation[col]] = this.state[pieceMoved[row]][pieceMoved[col]];
 	}
 }

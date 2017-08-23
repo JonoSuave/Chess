@@ -44,14 +44,22 @@ domBoard.createChessBoard();
 		$(`#${target.row}${target.col}`).addClass('highlight');
 	}
 
+	let targets = [];
+	let selection;
+
 	$(document).ready(() => {
 		$('.cell').click(function () {
 			const id = $(this).attr('id');
 			const currPiece = BoardState.state[id[0]][id[1]];
 			console.log(currPiece);
 			console.log(id);
-			const targets = currPiece.getTargets();
-			highlightTargets(targets);
+			if (currPiece.color === BoardState.turn) {
+				targets = currPiece.getTargets();
+				highlightTargets(targets);
+				selection = currPiece;
+			} else if (BoardState.isEnemy(currPiece.row, currPiece.col) && BoardState.isTarget(currPiece, targets)) {
+				BoardState.movePiece(selection, currPiece);
+			}
 			BoardState.changeTurn();
 		});
 	});
