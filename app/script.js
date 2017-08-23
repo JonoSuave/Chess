@@ -52,6 +52,7 @@ domBoard.createChessBoard();
 			console.log(id);
 			const targets = currPiece.getTargets();
 			highlightTargets(targets);
+			BoardState.changeTurn();
 		});
 	});
 })();

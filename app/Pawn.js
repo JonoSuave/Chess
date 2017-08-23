@@ -8,18 +8,18 @@ export default class Pawn extends Piece {
 		this.hasMoved = false;
 	}
 
-	getTargets() {
+	getTargets(forCheck) {
 		const possiblePieceMoves = [];
 		const blackEnemyTargets = [[1, 1], [1, -1]];
 		const whiteEnemyTargets = [[-1, 1], [-1, -1]];
 		const cellClickedCol = this.col;
-		if (BoardState.currentTurn() === 'white') {
+		if (BoardState.currentTurn() === 'white' || forCheck) {
 			for (let i = this.row + 1; i <= this.row + 1; i++) {
 				if (BoardState.isEmptyCell(i, this.col)) {
 					possiblePieceMoves.push({ row: i, col: this.col });
 				}
 			}
-			if (this.row === 1) {
+			if (this.row === 1 && !forCheck) {
 				for (let i = this.row + 2; i <= this.row + 2; i++) {
 					if (BoardState.isEmptyCell(i - 1, cellClickedCol) && BoardState.isEmptyCell(i, cellClickedCol)) {
 						possiblePieceMoves.push({ row: i, col: cellClickedCol });
@@ -40,7 +40,7 @@ export default class Pawn extends Piece {
 				}
 			}
 			if (this.row === 6) {
-				for (let k = this.row - 2; k >= this.row - 2; k++) {
+				for (let k = this.row - 2; k >= this.row - 2; k--) {
 					if (BoardState.isEmptyCell(k + 1, cellClickedCol) && BoardState.isEmptyCell(k, cellClickedCol)) {
 						possiblePieceMoves.push({ row: k, col: cellClickedCol });
 					}
@@ -54,7 +54,7 @@ export default class Pawn extends Piece {
 				}
 			}
 		}
-		BoardState.changeTurn();
+//		BoardState.changeTurn();
 		return possiblePieceMoves;
 	}
 }

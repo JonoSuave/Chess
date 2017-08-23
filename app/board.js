@@ -10,14 +10,14 @@ export default class Board {
 		this.state = [
 			[new Rook(0, 0, 'white'), new Knight(0, 1, 'white'), new Bishop(0, 2, 'white'), new King(0, 3, 'white'), new Queen(0, 4, 'white'), new Bishop(0, 5, 'white'), new Knight(0, 6, 'white'), new Rook(0, 7, 'white')],
 			[new Pawn(1, 0, 'white'), new Pawn(1, 1, 'white'), new Pawn(1, 2, 'white'), new Pawn(1, 3, 'white'), new Pawn(1, 4, 'white'), new Pawn(1, 5, 'white'), new Pawn(1, 6, 'white'), new Pawn(1, 7, 'white')],
-			[null, null, null, new King(2, 3, 'black'), null, null, null, null],
 //			new Array(8),
 			new Array(8),
+			[null, null, null, new King(3, 3, 'black'), null, null, null, null],
 			[null, null, null, null, new Bishop(4, 4, 'black'), null, null, null],
 //			new Array(8),
 			new Array(8),
 			[new Rook(6, 0, 'black'), new Pawn(6, 1, 'black'), new Pawn(6, 2, 'black'), new Pawn(6, 3, 'black'), new Pawn(6, 4, 'black'), new Pawn(6, 5, 'black'), new Pawn(6, 6, 'black'), new Pawn(6, 7, 'black')],
-			[new Rook(7, 0, 'black'), new Knight(7, 1, 'black'), new Bishop(7, 2, 'black'), new King(7, 3, 'black'), new Queen(7, 4, 'black'), new Bishop(7, 5, 'black'), new Knight(7, 6, 'black'), new Rook(7, 7, 'black')]
+			[new Rook(7, 0, 'black'), new Knight(7, 1, 'black'), new Bishop(7, 2, 'black'), new Knight(7, 3, 'black'), new Queen(7, 4, 'black'), new Bishop(7, 5, 'black'), new Knight(7, 6, 'black'), new Rook(7, 7, 'black')]
 		];
 
 		this.turn = 'white';
@@ -47,25 +47,25 @@ export default class Board {
 
 	getEnemyTargets() {
 		let enemyTargets = [];
-//		this.state.forEach((row) => {
-		for (let a = 0, row; a < this.state.length; a++) {
-			row = this.state[a];
-			for (let i = 0, cell; i < row.length; i++) {
-				cell = row[i];
-				if (cell && this.isEnemy(cell.row, i)) {
-					enemyTargets = enemyTargets.concat(cell.getTargets(true));
+		this.state.forEach((row) => {
+			row.filter(rowElement => rowElement).forEach((element) => {
+				if (!this.isEmptyCell(element.row, element.col) && this.isEnemy(element.row, element.col)) {
+				//					getEnemyTargets =[...getEnemyTargets, ...element.getTargets(true)];
+					enemyTargets = enemyTargets.concat(element.getTargets(true));
 					console.log(enemyTargets);
 				}
-			}
-		}
-//			row.forEach((element) => {
-//				if (!this.isEmptyCell(element.row, element.col) && this.isEnemy(element.row, element.col)) {
-////					getEnemyTargets =[...getEnemyTargets, ...element.getTargets(true)];
-//					enemyTargets = enemyTargets.concat(element.getTargets(true));
+			});
+		});
+//		for (let a = 0, row; a < this.state.length; a++) {
+//			row = this.state[a];
+//			for (let i = 0, cell; i < row.length; i++) {
+//				cell = row[i];
+//				if (cell && this.isEnemy(cell.row, i)) {
+//					enemyTargets = enemyTargets.concat(cell.getTargets(true));
 //					console.log(enemyTargets);
 //				}
-//			});
-//		});
+//			}
+//		}
 		return enemyTargets;
 	}
 }

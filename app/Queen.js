@@ -6,7 +6,7 @@ export default class Queen extends Piece {
 		const img = color === 'white' ? '2655' : '265B';
 		super(row, col, color, img);
 	}
-	getTargets() {
+	getTargets(forCheck) {
 		const possiblePieceMoves = [];
 		const selfRow = this.row;
 		const selfCol = this.col;
@@ -26,11 +26,13 @@ export default class Queen extends Piece {
 						row: rowAdd,
 						col: colAdd
 					});
-				} else if (BoardState.isOnBoard(rowAdd, colAdd) && BoardState.isEnemy(rowAdd, colAdd)) {
+				} else if (BoardState.isOnBoard(rowAdd, colAdd) && BoardState.isEnemy(rowAdd, colAdd) || forCheck) {
 					possiblePieceMoves.push({
 						row: rowAdd,
 						col: colAdd
 					});
+					break;
+				} else if (BoardState.isOnBoard(rowAdd, colAdd) && !BoardState.isEmptyCell(rowAdd, colAdd)) {
 					break;
 				}
 			}
@@ -51,14 +53,17 @@ export default class Queen extends Piece {
 			} else if (!BoardState.isEmptyCell(i, this.col)) {
 				if (BoardState.isEnemy(i, this.col)) {
 					possiblePieceMoves.push({ row: i, col: this.col });
+					break;
+				} else {
+					break;
 				}
 			}
 		}
 		for (let i = this.col - 1; i >= 0; i--) {
 			if (BoardState.isEmptyCell(this.row, i)) {
 				possiblePieceMoves.push({ col: i, row: this.row });
-			} else if (!BoardState.isEmptyCell(i, this.col)) {
-				if (BoardState.isEnemy(i, this.col)) {
+			} else if (!BoardState.isEmptyCell(this.row, i)) {
+				if (BoardState.isEnemy(this.row, i)) {
 					possiblePieceMoves.push({ col: i, row: this.row });
 					break;
 				}
@@ -67,8 +72,8 @@ export default class Queen extends Piece {
 		for (let i = this.col + 1; i <= 7; i++) {
 			if (BoardState.isEmptyCell(this.row, i)) {
 				possiblePieceMoves.push({ col: i, row: this.row });
-			} else if (!BoardState.isEmptyCell(i, this.col)) {
-				if (BoardState.isEnemy(i, this.col)) {
+			} else if (!BoardState.isEmptyCell(this.row, i)) {
+				if (BoardState.isEnemy(this.row, i)) {
 					possiblePieceMoves.push({ col: i, row: this.row });
 					break;
 				}

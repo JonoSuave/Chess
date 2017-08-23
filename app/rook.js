@@ -24,6 +24,9 @@ export default class Rook extends Piece {
 			} else if (!BoardState.isEmptyCell(i, this.col)) {
 				if (BoardState.isEnemy(i, this.col)) {
 					possiblePieceMoves.push({ row: i, col: this.col });
+					break;
+				} else {
+					break;
 				}
 			}
 		}
@@ -40,8 +43,8 @@ export default class Rook extends Piece {
 		for (let i = this.col + 1; i <= 7 && i > -1; i++) {
 			if (BoardState.isEmptyCell(this.row, i)) {
 				possiblePieceMoves.push({ col: i, row: this.row });
-			} else if (!BoardState.isEmptyCell(i, this.col)) {
-				if (BoardState.isEnemy(i, this.col)) {
+			} else if (!BoardState.isEmptyCell(this.row, i)) {
+				if (BoardState.isEnemy(this.row, i)) {
 					possiblePieceMoves.push({ col: i, row: this.row });
 					break;
 				}

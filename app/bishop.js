@@ -33,6 +33,8 @@ export default class Bishop extends Piece {
 						col: colAdd
 					});
 					break;
+				} else {
+					break;
 				}
 			}
 		}
