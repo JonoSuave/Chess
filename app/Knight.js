@@ -15,6 +15,8 @@ export default class Knight extends Piece {
 			const colAdd = this.col + targetsToCheck[i][1];
 			if (BoardState.isOnBoard(rowAdd, colAdd) && BoardState.isEmptyCell(rowAdd, colAdd)) {
 				possiblePieceMoves.push({ row: rowAdd, col: colAdd });
+			} else if (BoardState.isOnBoard(rowAdd, colAdd) && BoardState.isEnemy(rowAdd, colAdd)) {
+				possiblePieceMoves.push({ row: rowAdd, col: colAdd });
 			}
 		}
 		return possiblePieceMoves;

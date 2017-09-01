@@ -5,17 +5,19 @@ import King from './King';
 import Queen from './Queen';
 import Pawn from './Pawn';
 
+const $ = require('jquery');
+
 export default class Board {
 	constructor() {
 		this.state = [
 			[new Rook(0, 0, 'white'), new Knight(0, 1, 'white'), new Bishop(0, 2, 'white'), new King(0, 3, 'white'), new Queen(0, 4, 'white'), new Bishop(0, 5, 'white'), new Knight(0, 6, 'white'), new Rook(0, 7, 'white')],
 			[new Pawn(1, 0, 'white'), new Pawn(1, 1, 'white'), new Pawn(1, 2, 'white'), new Pawn(1, 3, 'white'), new Pawn(1, 4, 'white'), new Pawn(1, 5, 'white'), new Pawn(1, 6, 'white'), new Pawn(1, 7, 'white')],
+			[null, null, new Pawn(2, 2, 'black'), null, null, null, null, null],
 //			new Array(8),
-			new Array(8),
 			[null, null, null, new King(3, 3, 'black'), null, null, null, null],
 			[null, null, null, null, new Bishop(4, 4, 'black'), null, null, null],
 //			new Array(8),
-			new Array(8),
+			[null, null, null, null, null, null, null, null],
 			[new Rook(6, 0, 'black'), new Pawn(6, 1, 'black'), new Pawn(6, 2, 'black'), new Pawn(6, 3, 'black'), new Pawn(6, 4, 'black'), new Pawn(6, 5, 'black'), new Pawn(6, 6, 'black'), new Pawn(6, 7, 'black')],
 			[new Rook(7, 0, 'black'), new Knight(7, 1, 'black'), new Bishop(7, 2, 'black'), new Knight(7, 3, 'black'), new Queen(7, 4, 'black'), new Bishop(7, 5, 'black'), new Knight(7, 6, 'black'), new Rook(7, 7, 'black')]
 		];
@@ -60,14 +62,29 @@ export default class Board {
 	}
 
 	isTarget(clickedPiece, targetsArr) {
-		for(let i = 0; i < targetsArr.length; i++) {
-			if(targetsArr[i].row === clickedPiece.row && targetsArr[i].col = clickedPiece.col) {
+		for (let i = 0; i < targetsArr.length; i++) {
+			if (targetsArr[i].row === clickedPiece.row && targetsArr[i].col === clickedPiece.col) {
 				return true;
 			}
 		}
+		return false;
 	}
-	
+
 	movePiece(pieceMoved, newLocation) {
-		this.state[newLocation[row]][newLocation[col]] = this.state[pieceMoved[row]][pieceMoved[col]];
+		this.movePieceBS(pieceMoved, newLocation);
+		return this.movePieceDom(pieceMoved, newLocation);
+	}
+
+	movePieceBS(pieceMoved, newLocation) {
+		this.state[newLocation.row][newLocation.col] = this.state[pieceMoved.row][pieceMoved.col];
+		this.state[pieceMoved.row][pieceMoved.col] = null;
+	}
+
+	movePieceDom(pieceMoved, newLocation) {
+		const id = `${pieceMoved.row}${pieceMoved.col}`;
+		$(`#${id}`).html(null);
+		pieceMoved.row = newLocation.row;
+		pieceMoved.col = newLocation.col;
+		return pieceMoved;
 	}
 }

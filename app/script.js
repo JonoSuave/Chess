@@ -28,6 +28,10 @@ domBoard.createChessBoard();
 		return String.fromCharCode(parseInt(code, 16));
 	}
 
+	function removeDomPiece(objectPiece) {
+		$(`#${objectPiece.row}${objectPiece.col}`).html('');
+	}
+
 	function highlightTargets(targets) {
 		removeHighlights();
 		targets.forEach((target) => {
@@ -53,14 +57,26 @@ domBoard.createChessBoard();
 			const currPiece = BoardState.state[id[0]][id[1]];
 			console.log(currPiece);
 			console.log(id);
-			if (currPiece.color === BoardState.turn) {
+			if (currPiece !== null && currPiece.color === BoardState.turn) {
 				targets = currPiece.getTargets();
 				highlightTargets(targets);
 				selection = currPiece;
-			} else if (BoardState.isEnemy(currPiece.row, currPiece.col) && BoardState.isTarget(currPiece, targets)) {
+			} else if (currPiece !== null && BoardState.isEnemy(currPiece.row, currPiece.col) && BoardState.isTarget(currPiece, targets)) {
+//				Going to use a spread operator
+				const selectionCopy = Object.assign({}, selection);
 				BoardState.movePiece(selection, currPiece);
+				removeDomPiece(selection);
+				removeDomPiece(selectionCopy);
+				placePiece(selection);
+				BoardState.changeTurn();
+				removeHighlights();
+			} else if (BoardState.isTarget({ row: +id[0], col: +id[1] }, targets)) {
+				BoardState.movePiece(selection, { row: +id[0], col: +id[1] });
+				removeDomPiece(selection);
+				placePiece(selection);
+				BoardState.changeTurn();
+				removeHighlights();
 			}
-			BoardState.changeTurn();
 		});
 	});
 })();
